@@ -44,10 +44,7 @@ public class PeopleMenu {
             waitEnter();
             break;
           case 4:
-            printHeader();
-            System.out.println("Menu de remover pessoa");
-            System.out.println("Aperte \033[1;32mENTER\033[0m para voltar.");
-            waitEnter();
+            removePerson();
             break;
           case 5:
             break;
@@ -227,6 +224,44 @@ public class PeopleMenu {
     }
 
     System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
+
+    waitEnter();
+    clearConsole();
+  }
+
+  public static void removePerson() throws IOException {
+    PersonDAO personDAO = new PersonDAO();
+    int ID = 0;
+    Person person = null;
+
+    while(true) {
+      try {
+        printHeader();
+        System.out.print("Insira o ID da pessoa:\n> ");
+        ID = input.nextInt();
+        person = personDAO.getById(ID);
+        if (person == null) {
+          clearConsole();
+          printHeader();
+          throw new Exception("ID incorreto\n");
+        }
+        clearConsole();
+        break;
+      }
+      catch (Exception e) {
+        System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+        waitEnter();
+      }
+      finally {
+        clearBuffer();
+      }
+    }
+
+    if (personDAO.delete(person.getPersonId())) {
+      System.out.println("A pessoa foi deletada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
+    } else {
+      System.out.println("Erro ao deletar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
+    }
 
     waitEnter();
     clearConsole();

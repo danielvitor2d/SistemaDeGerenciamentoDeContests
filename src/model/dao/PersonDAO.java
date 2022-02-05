@@ -48,7 +48,22 @@ public class PersonDAO implements IPersonDAO {
 
 	@Override
 	public boolean delete(int personId) {
-		return false;
+		Connection con = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+
+		int result = 0;
+
+		try {
+			stmt = con.prepareStatement("delete from manage_contests.person as p where p.personId = (?)");
+			stmt.setInt(1, personId);
+			result = stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Erro ao deletar!\n" + e.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(con, stmt);
+		}
+
+		return (result == 1 ? true : false);
 	}
 
 	@Override
@@ -58,7 +73,35 @@ public class PersonDAO implements IPersonDAO {
 
 	@Override
 	public Person getById(int personId) {
-		return null;
+		Connection connection = ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		Person person = null;
+
+		try {
+			preparedStatement = connection.prepareStatement("select * from manage_contests.person as p where p.personId = (?)");
+			preparedStatement.setInt(1, personId);
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				person = new Person();
+				person.setPersonId(resultSet.getInt("personId"));
+				person.setName(resultSet.getString("name"));
+				person.setAge(resultSet.getInt("age"));
+				person.setEmail(resultSet.getString("email"));
+				person.setPhone(resultSet.getString("phone"));
+				person.setUniversity(resultSet.getString("university"));
+				person.setPersonType(PersonType.valueOf(resultSet.getString("personType")));
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao buscar!\n" + e.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(connection, preparedStatement, resultSet);
+		}
+
+		return person;
 	}
 
 	@Override
@@ -88,7 +131,7 @@ public class PersonDAO implements IPersonDAO {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao salvar!\n" + e.getMessage());
+			System.out.println("Erro ao buscar!\n" + e.getMessage());
 		} finally {
 			ConnectionFactory.closeConnection(connection, preparedStatement, resultSet);
 		}
