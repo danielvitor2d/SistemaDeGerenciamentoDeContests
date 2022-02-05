@@ -6,7 +6,6 @@ import java.util.List;
 import model.bean.Person;
 import model.bean.PersonType;
 
-import model.dao.IPersonDAO;
 import model.dao.PersonDAO;
 
 import static view.App.input;
