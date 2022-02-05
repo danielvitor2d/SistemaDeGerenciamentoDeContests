@@ -12,8 +12,8 @@ public class ConnectionFactory {
 
 	private static final String DRIVER = "org.postgresql.Driver";
     private static final String URL = "jdbc:postgresql://localhost/manage-contests";
-    private static final String USER = "root";
-    private static final String PASS = "root1234";
+    private static final String USER = "postgres";
+    private static final String PASS = "pass1234";
 
     public static Connection getConnection() {
         try {

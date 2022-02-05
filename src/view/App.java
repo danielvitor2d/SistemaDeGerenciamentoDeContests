@@ -3,7 +3,7 @@ package view;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static view.PersonsMenu.*;
+import static view.PeopleMenu.peopleMenu;
 
 public class App {
 	public static Scanner input = new Scanner(System.in);
@@ -51,7 +51,7 @@ public class App {
   		try {
     		switch(optionMenu) {
     			case 1:
-    				personsMenu();
+    				peopleMenu();
     				break;
     			case 2:
     				printHeader();
