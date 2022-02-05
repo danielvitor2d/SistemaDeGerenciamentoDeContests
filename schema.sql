@@ -1,5 +1,3 @@
-drop schema manage_contests cascade;
-
 -- Criando o esquema
 create schema manage_contests;
 
@@ -160,7 +158,7 @@ insert into manage_contests.person (name, age, email,	phone, university, personT
 								   ('Eliza', 19, 'eliza@mail.com', '41354357325', 'UDESC', 'STUDENT');
 insert into manage_contests.person (name, age, email,	phone, university, personType) values 
 								   ('Pedrão', 25, 'pedrao@mail.com', '24623574322', 'UDESC', 'COACH');
-
+								   
 -- Povoando tabela team
 insert into manage_contests.team (teamName, teamPhotoUrl, studentId01, studentId02, studentId03, coachId) values
 								 ('Ultra fast parrot', 'https://media.giphy.com/media/Ep94i7XsV92ow/giphy.gif', 4, 7, 8, 5);
@@ -180,7 +178,7 @@ insert into manage_contests.team (teamName, teamPhotoUrl, studentId01, studentId
 								 ('Superpoderosas', 'https://media.giphy.com/media/lylKK15DfmdzO/giphy.gif', 30, 31, 32, 33);
 insert into manage_contests.team (teamName, teamPhotoUrl, studentId01, studentId02, studentId03, coachId) values
 								 ('Time sem nome', 'https://media.giphy.com/media/94xeIhxJKItxrJMfJV/giphy.gif', 34, 35, 36, 37);
-
+								 
 -- povoando tabela contest
 insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
 									('NOT_STARTED', 'I Contest Brasileiro', '2018-01-31', 5, 'USP', 6);
@@ -192,7 +190,7 @@ insert into manage_contests.contest (status, title, date, duration, place, judge
 									('FINISHED', 'I Contest do Nordeste', '2021-03-01', 5, 'IFCE', 6);
 insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
 									('FINISHED', 'XII Contest do Norte', '2021-05-15', 5, 'UFAM', 6);
-
+									
 -- Povoando tabela problem
 insert into manage_contests.problem (title, description, timelimit, sampleinputproblem, sampleoutputproblem, contestid) values 
 									('Perfect Matching', 'Some big description here of Perfect Matching problem', 12, 
@@ -242,7 +240,7 @@ insert into manage_contests.problem (title, description, timelimit, sampleinputp
 insert into manage_contests.problem (title, description, timelimit, sampleinputproblem, sampleoutputproblem, contestid) values 
 									('Arena', 'Some big description here of Arena problem', 3, 
 									 'Sample Input of Arena problem', 'Sample Output of Arena problem', 5);
-
+									 
 -- Povoando a tabela contest_registered_team
 INSERT INTO manage_contests.contest_registered_team (teamid, contestid) VALUES 
 													(1, 2);
@@ -305,8 +303,56 @@ insert into manage_contests.submission (status, "timestamp", sourcecode, problem
 insert into manage_contests.submission (status, "timestamp", sourcecode, problemid, teamid) values
 									   ('RE', 'now()', 'Sample 15 of sourcecode', 16, 5);
 
+-- Criando view para visualizar os times com os nomes dos alunos
+create view manage_contests.view_teams as (
+	select (select p.name from manage_contests.person as p where p.personId = t.studentid01) as student01,
+	       (select p.name from manage_contests.person as p where p.personId = t.studentid02) as student02,
+	 	   (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
+		   (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach
+	from manage_contests.team as t
+);
 
+-- Criando view para visualizar os times e a quantidade de contests cadastrados
+create view manage_contests.view_contests_teams as (
+	select t.teamId as team_id,
+		   (select p.name from manage_contests.person as p where p.personId = t.studentid01) as student01,
+	       (select p.name from manage_contests.person as p where p.personId = t.studentid02) as student02,
+	 	   (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
+		   (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach,
+	       count(*) as count_of_problems
+	from manage_contests.contest_registered_team as crt join manage_contests.team as t on t.teamId = crt.teamId
+	group by (t.teamId)
+);
 
+-- Criando materialized view para calcular a quantidade de submissões por equipe
+create materialized view manage_contests.view_teams_submissions as (
+	select t.teamId as team_id,
+		   (select p.name from manage_contests.person as p where p.personId = t.studentid01) as student01,
+	       (select p.name from manage_contests.person as p where p.personId = t.studentid02) as student02,
+	 	   (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
+		   (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach,
+		   count(*) as count_of_submissions
+	from manage_contests.submission as s natural join manage_contests.team as t
+	group by (team_id, student01, student02, student03)
+);
+
+-- Criando materialized view para calcular a quantidade de problemas por contest
+drop materialized view manage_contests.view_problems_of_contest;
+create materialized view manage_contests.view_problems_of_contest as (
+	select c.contestId, c.title as title_of_contest, count(*) as count_of_problems
+	from manage_contests.contest as c join manage_contests.problem as p on c.contestId = p.contestId
+	group by (c.contestId, c.title)
+);
+
+select * from manage_contests.view_problems_of_contest;
+
+-- Criando consultas
+
+-- Consultando equipes e o somatório da quantidade de problemas de todos os contests que participaram
+select team_contest_count_problems.teamName, sum(team_contest_count_problems.count_of_problems)
+from ((manage_contests.contest_registered_team as crt natural join manage_contests.team as t) as team_contest
+     natural join manage_contests.view_problems_of_contest as vpc) as team_contest_count_problems
+group by (team_contest_count_problems.teamName);
 
 
 
