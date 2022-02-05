@@ -4,16 +4,13 @@ import java.sql.Timestamp;
 
 public class Submission {
 	private int submissionId;
-	private String status;
+	private SubmissionStatus status;
 	private Timestamp timestamp;
 	private String sourceCode;
-	private int contestId;
 	private int problemId;
 	private int teamId;
-	private int judgeId;
 	
-	public Submission() {
-	}
+	public Submission() {}
 
 	public int getSubmissionId() {
 		return submissionId;
@@ -23,11 +20,11 @@ public class Submission {
 		this.submissionId = submissionId;
 	}
 
-	public String getStatus() {
+	public SubmissionStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(SubmissionStatus status) {
 		this.status = status;
 	}
 
@@ -47,14 +44,6 @@ public class Submission {
 		this.sourceCode = sourceCode;
 	}
 
-	public int getContestId() {
-		return contestId;
-	}
-
-	public void setContestId(int contestId) {
-		this.contestId = contestId;
-	}
-
 	public int getProblemId() {
 		return problemId;
 	}
@@ -71,19 +60,10 @@ public class Submission {
 		this.teamId = teamId;
 	}
 
-	public int getJudgeId() {
-		return judgeId;
-	}
-
-	public void setJudgeId(int judgeId) {
-		this.judgeId = judgeId;
-	}
-
 	@Override
 	public String toString() {
 		return "Submission [submissionId=" + submissionId + ", status=" + status + ", timestamp=" + timestamp
-				+ ", sourceCode=" + sourceCode + ", contestId=" + contestId + ", problemId=" + problemId + ", teamId="
-				+ teamId + ", judgeId=" + judgeId + "]";
+				+ ", sourceCode=" + sourceCode + ", problemId=" + problemId + ", teamId=" + teamId + "]";
 	}
 
 }

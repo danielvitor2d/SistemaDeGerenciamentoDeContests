@@ -10,9 +10,7 @@ public class Person {
 	private String university;
 	private PersonType personType;
 	
-	public Person() {
-		
-	}
+	public Person() {}
 
 	public int getPersonId() {
 		return personId;

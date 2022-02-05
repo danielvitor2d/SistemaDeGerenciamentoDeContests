@@ -4,13 +4,12 @@ public class Problem {
 	private int problemId;
 	private String title;
 	private String description;
-	private double tle;
+	private double timelimit;
 	private String sampleInputProblem;
 	private String sampleOutputProblem;
 	private int contestId;
 	
-	public Problem() {
-	}
+	public Problem() {}
 
 	public int getProblemId() {
 		return problemId;
@@ -36,12 +35,12 @@ public class Problem {
 		this.description = description;
 	}
 
-	public double getTle() {
-		return tle;
+	public double getTimelimit() {
+		return timelimit;
 	}
 
-	public void setTle(double tle) {
-		this.tle = tle;
+	public void setTimelimit(double timelimit) {
+		this.timelimit = timelimit;
 	}
 
 	public String getSampleInputProblem() {
@@ -70,7 +69,7 @@ public class Problem {
 
 	@Override
 	public String toString() {
-		return "Problem [problemId=" + problemId + ", title=" + title + ", description=" + description + ", tle=" + tle
+		return "Problem [problemId=" + problemId + ", title=" + title + ", description=" + description + ", timelimit=" + timelimit
 				+ ", sampleInputProblem=" + sampleInputProblem + ", sampleOutputProblem=" + sampleOutputProblem
 				+ ", contestId=" + contestId + "]";
 	}

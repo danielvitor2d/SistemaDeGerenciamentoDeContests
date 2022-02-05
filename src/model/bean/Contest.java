@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 public class Contest {
 	private int contestId;
 	private String title;
+	private ContestStatus status;
 	private Timestamp date;
 	private double duration;
 	private String place;
 	private int judgeId;
 	
-	public Contest() {
-	}
+	public Contest() {}
 
 	public int getContestId() {
 		return contestId;
@@ -27,6 +27,14 @@ public class Contest {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public ContestStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ContestStatus status) {
+		this.status = status;
 	}
 
 	public Timestamp getDate() {
@@ -63,8 +71,8 @@ public class Contest {
 
 	@Override
 	public String toString() {
-		return "Contest [contestId=" + contestId + ", title=" + title + ", date=" + date + ", duration=" + duration
-				+ ", place=" + place + ", judgeId=" + judgeId + "]";
+		return "Contest [contestId=" + contestId + ", title=" + title + ", status=" + status + ", date=" + date
+				+ ", duration=" + duration + ", place=" + place + ", judgeId=" + judgeId + "]";
 	}
 
 }
