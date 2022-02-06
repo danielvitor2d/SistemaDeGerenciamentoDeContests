@@ -1,6 +1,8 @@
 package gemp.github.model.team;
 
+import gemp.github.dto.model.team.TeamDTO;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,4 +26,8 @@ public class Team implements Serializable {
 	private Long studentId02;
 	private Long studentId03;
 	private Long coachId;
+
+	public TeamDTO convertEntityToDTO() {
+		return new ModelMapper().map(this, TeamDTO.class);
+	}
 }

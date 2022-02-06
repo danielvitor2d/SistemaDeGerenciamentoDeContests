@@ -1,6 +1,8 @@
 package gemp.github.model.contest;
 
+import gemp.github.dto.model.contest.ContestDTO;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,4 +28,8 @@ public class Contest implements Serializable {
 	private Double duration;
 	private String place;
 	private Long judgeId;
+
+	public ContestDTO convertEntityToDTO() {
+		return new ModelMapper().map(this, ContestDTO.class);
+	}
 }

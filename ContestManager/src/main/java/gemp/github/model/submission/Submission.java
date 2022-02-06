@@ -1,6 +1,8 @@
 package gemp.github.model.submission;
 
+import gemp.github.dto.model.submission.SubmissionDTO;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,4 +27,8 @@ public class Submission implements Serializable {
 	private String sourceCode;
 	private Long problemId;
 	private Long teamId;
+	
+	public SubmissionDTO convertEntityToDTO() {
+		return new ModelMapper().map(this, SubmissionDTO.class);
+	}
 }

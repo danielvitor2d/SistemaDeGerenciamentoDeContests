@@ -1,6 +1,8 @@
 package gemp.github.model.person;
 
+import gemp.github.dto.model.person.PersonDTO;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,4 +27,8 @@ public class Person implements Serializable {
 	private String phone;
 	private String university;
 	private Long personType;
+
+	public PersonDTO convertEntityToDTO() {
+		return new ModelMapper().map(this, PersonDTO.class);
+	}
 }
