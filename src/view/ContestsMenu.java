@@ -1,16 +1,35 @@
 package view;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import model.bean.Contest;
+import model.bean.ContestStatus;
+
+import static view.App.input;
+import static view.App.printHeader;
+import static view.App.waitEnter;
+import static view.App.clearBuffer;
+import static view.App.clearConsole;
+
 public class ContestsMenu {
+    private static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+    private static GregorianCalendar gregorianCalendar = new GregorianCalendar();
+
     public static void contestMenu() {
         int optionMenu = 0;
         do {
             printHeader();
 
-            System.out.println("\033[0;34m1) Adicionar contest\033[0m\n" +
-                    "\033[0;34m2) Listar contest\033[0m\n" +
-                    "\033[0;34m3) Atualizar contest\033[0m\n" +
-                    "\033[0;34m4) Remover contest\033[0m\n" +
-                    "\033[0;34m5) Retornar\033[0m\n");
+            System.out.println("\033[0;34m1) Criar contest\033[0m\n" +
+                    "\033[0;34m2) Listar contests\033[0m\n" +
+                    "\033[0;34m3) Iniciar contest\033[0m\n" +
+                    "\033[0;34m4) Cancelar contest\033[0m\n" +
+                    "\033[0;34m5) Remover contest\033[0m\n" +
+                    "\033[0;34m6) Retornar\033[0m\n");
 
             optionMenu = input.nextInt();
             clearBuffer();
@@ -18,21 +37,21 @@ public class ContestsMenu {
             try {
                 switch(optionMenu) {
                     case 1:
-                        addContest();
+                        createContest();
                         break;
                     case 2:
-                        listContest();
+                        listContests();
                         break;
                     case 3:
-                        printHeader();
-                        System.out.println("Menu de atualizar contest!");
-                        System.out.println("Aperte \033[1;32mENTER\033[0m para voltar.");
-                        waitEnter();
+                        startContest();
                         break;
                     case 4:
-                        removeContest();
+                        cancelContest();
                         break;
                     case 5:
+                        removeContest();
+                        break;
+                    case 6:
                         break;
                     default:
                         System.out.println("Opção inválida! Aperte \033[1;32mENTER\033[0m para tentar novamente");
@@ -42,19 +61,20 @@ public class ContestsMenu {
                 System.out.println("Opção inválida! Aperte \033[1;32mENTER\033[0m para tentar novamente");
             }
 
-        } while (optionMenu != 5);
+        } while (optionMenu != 6);
     }
 
-    public static void addContest() throws IOException {
+    public static void createContest() throws IOException {
         Contest contest = new Contest();
+        contest.setStatus(ContestStatus.NOT_STARTED);
 
         // Lendo titulo do contest
         while (true) {
             try {
                 printHeader();
                 System.out.print("Digite o titulo do contest:\n> ");
-                contest.setName(input.nextLine());
-                if (person.getName().isEmpty()) {
+                contest.setTitle(input.nextLine());
+                if (contest.getTitle().isEmpty()) {
                     System.out.println("Titulo inválido! O titulo do contest deve ter no mínimo 1 caractere!" +
                             "\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
                     waitEnter();
@@ -70,23 +90,17 @@ public class ContestsMenu {
             }
         }
 
-        // Lendo status do contest
+        // Lendo a data do contest
         while (true) {
             try {
                 printHeader();
-                System.out.print("Digite a idade da pessoa:\n> ");
-                person.setAge(input.nextInt());
-                clearBuffer();
-                if (person.getAge() <= 0) {
-                    System.out.println("Idade inválida!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
-                    waitEnter();
-                    clearConsole();
-                    continue;
-                }
+                System.out.print("Digite a data do contest no formato (dd/MM/yyyy hh:mm):\n> ");
+                gregorianCalendar.setTime(formatter.parse(input.nextLine()));
+                contest.setDateTime(gregorianCalendar.getTime());
                 clearConsole();
                 break;
-            } catch (IOException e) {
-                System.out.println(e.getMessage() + "\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+            } catch (ParseException e) {
+                System.out.println("Formato inválido\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
                 waitEnter();
                 clearConsole();
             }
@@ -198,59 +212,96 @@ public class ContestsMenu {
         clearConsole();
     }
 
-    public static void listPeople() throws IOException {
-        printHeader();
+    public static void listContests() throws IOException {
+        // printHeader();
 
-        PersonDAO personDAO = new PersonDAO();
-        List<Person> people = personDAO.listPeople();
+        // PersonDAO personDAO = new PersonDAO();
+        // List<Person> people = personDAO.listPeople();
 
-        System.out.println("Listando pessoas cadastradas:");
-        for (Person person : people) {
-            System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
-        }
+        // System.out.println("Listando pessoas cadastradas:");
+        // for (Person person : people) {
+        //     System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+        // }
 
-        System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
 
-        waitEnter();
-        clearConsole();
+        // waitEnter();
+        // clearConsole();
     }
 
-    public static void removePerson() throws IOException {
-        PersonDAO personDAO = new PersonDAO();
-        int ID = 0;
-        Person person = null;
+    public static void startContest() throws IOException {
+        // PersonDAO personDAO = new PersonDAO();
+        // int ID = 0;
+        // Person person = null;
 
-        while(true) {
-            try {
-                printHeader();
-                System.out.print("Insira o ID da pessoa:\n> ");
-                ID = input.nextInt();
-                person = personDAO.getById(ID);
-                if (person == null) {
-                    clearConsole();
-                    printHeader();
-                    throw new Exception("ID incorreto\n");
-                }
-                clearConsole();
-                break;
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
-                waitEnter();
-            }
-            finally {
-                clearBuffer();
-            }
-        }
+        // while(true) {
+        //     try {
+        //         printHeader();PersonDAO personDAO = new PersonDAO();
+        // int ID = 0;
+        // Person person = null;
 
-        if (personDAO.delete(person.getPersonId())) {
-            System.out.println("A pessoa foi deletada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
-        } else {
-            System.out.println("Erro ao deletar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
-        }
+        // while(true) {
+        //     try {
+        //         printHeader();
+        //         System.out.print("Insira o ID da pessoa:\n> ");
+        //         ID = input.nextInt();
+        //         person = personDAO.getById(ID);
+        //         if (person == null) {
+        //             clearConsole();
+        //             printHeader();
+        //             throw new Exception("ID incorreto\n");
+        //         }
+        //         clearConsole();
+        //         break;
+        //     }
+        //     catch (Exception e) {
+        //         System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+        //         waitEnter();
+        //     }
+        //     finally {
+        //         clearBuffer();
+        //     }
+        // }
 
-        waitEnter();
-        clearConsole();
+        // if (personDAO.delete(person.getPersonId())) {
+        //     System.out.println("A pessoa foi deletada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // } else {
+        //     System.out.println("Erro ao deletar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // }
+
+        // waitEnter();
+        // clearConsole();
+        //             printHeader();
+        //             throw new Exception("ID incorreto\n");
+        //         }
+        //         clearConsole();
+        //         break;
+        //     }
+        //     catch (Exception e) {
+        //         System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+        //         waitEnter();
+        //     }
+        //     finally {
+        //         clearBuffer();
+        //     }
+        // }
+
+        // if (personDAO.delete(person.getPersonId())) {
+        //     System.out.println("A pessoa foi deletada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // } else {
+        //     System.out.println("Erro ao deletar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // }
+
+        // waitEnter();
+        // clearConsole();
+    }
+
+    public static void cancelContest() throws IOException {
+        
+    }
+
+    public static void removeContest() throws IOException {
+
     }
 
     private static String formatId(int id) {

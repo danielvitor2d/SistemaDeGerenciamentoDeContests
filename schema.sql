@@ -337,14 +337,11 @@ create materialized view manage_contests.view_teams_submissions as (
 );
 
 -- Criando materialized view para calcular a quantidade de problemas por contest
-drop materialized view manage_contests.view_problems_of_contest;
 create materialized view manage_contests.view_problems_of_contest as (
 	select c.contestId, c.title as title_of_contest, count(*) as count_of_problems
 	from manage_contests.contest as c join manage_contests.problem as p on c.contestId = p.contestId
 	group by (c.contestId, c.title)
 );
-
-select * from manage_contests.view_problems_of_contest;
 
 -- Criando consultas
 

@@ -1,12 +1,12 @@
 package model.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Contest {
 	private int contestId;
 	private String title;
 	private ContestStatus status;
-	private Timestamp date;
+	private Date dateTime;
 	private double duration;
 	private String place;
 	private int judgeId;
@@ -37,12 +37,12 @@ public class Contest {
 		this.status = status;
 	}
 
-	public Timestamp getDate() {
-		return date;
+	public Date getDateTime() {
+		return dateTime;
 	}
 
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public double getDuration() {
@@ -71,8 +71,7 @@ public class Contest {
 
 	@Override
 	public String toString() {
-		return "Contest [contestId=" + contestId + ", title=" + title + ", status=" + status + ", date=" + date
-				+ ", duration=" + duration + ", place=" + place + ", judgeId=" + judgeId + "]";
+		return "Contest [contestId=" + contestId + ", dateTime=" + dateTime + ", duration=" + duration + ", judgeId="
+				+ judgeId + ", place=" + place + ", status=" + status + ", title=" + title + "]";
 	}
-
 }
