@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionFactory;
-import model.bean.Person;
-import model.bean.PersonType;
 
 public class PersonDAO implements IPersonDAO {
 
