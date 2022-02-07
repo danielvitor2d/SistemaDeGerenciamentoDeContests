@@ -5,9 +5,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import model.bean.Contest;
 import model.bean.ContestStatus;
+import model.dao.ContestDAO;
 
 import static view.App.input;
 import static view.App.printHeader;
@@ -75,7 +77,7 @@ public class ContestsMenu {
                 System.out.print("Digite o titulo do contest:\n> ");
                 contest.setTitle(input.nextLine());
                 if (contest.getTitle().isEmpty()) {
-                    System.out.println("Titulo inválido! O titulo do contest deve ter no mínimo 1 caractere!" +
+                    System.out.println("O titulo do contest deve ter no mínimo 1 caractere!" +
                             "\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
                     waitEnter();
                     clearConsole();
@@ -84,7 +86,7 @@ public class ContestsMenu {
                 clearConsole();
                 break;
             } catch (IOException e) {
-                System.out.println(e.getMessage() + "\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+                System.out.println("\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
                 waitEnter();
                 clearConsole();
             }
@@ -106,14 +108,29 @@ public class ContestsMenu {
             }
         }
 
-        // Lendo email da pessoa
+        // Lendo a duração do contest
         while (true) {
             try {
                 printHeader();
-                System.out.print("Digite o e-mail da pessoa:\n> ");
-                person.setEmail(input.nextLine());
-                if (person.getEmail().isEmpty()) {
-                    System.out.println("E-mail inválido!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
+                System.out.print("Digite a duração do contest:\n> ");
+                contest.setDuration(input.nextDouble());
+                clearConsole();
+                break;
+            } catch (Exception e) {
+                System.out.println("Formato inválido\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+                waitEnter();
+                clearConsole();
+            }
+        }
+
+        // Lendo o local do contest
+        while (true) {
+            try {
+                printHeader();
+                System.out.print("Digite o local do contest:\n> ");
+                contest.setPlace(input.nextLine());
+                if (contest.getPlace().isEmpty()) {
+                    System.out.println("Digite algum local!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
                     waitEnter();
                     clearConsole();
                     continue;
@@ -121,179 +138,88 @@ public class ContestsMenu {
                 clearConsole();
                 break;
             } catch (IOException e) {
-                System.out.println(e.getMessage() + "\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+                System.out.println("\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
                 waitEnter();
                 clearConsole();
             }
         }
 
-        // Lendo telefone da pessoa
+        // Lendo o juiz do contest
         while (true) {
             try {
                 printHeader();
-                System.out.print("Digite o telefone da pessoa:\n> ");
-                person.setPhone(input.nextLine());
-                if (person.getPhone().isEmpty()) {
-                    System.out.println("Telefone inválido!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
-                    waitEnter();
-                    clearConsole();
-                    continue;
-                }
+                // listJudges();
+                System.out.print("Digite o índice do juiz:\n> ");
+                contest.setJudgeId(input.nextInt());
+                // check indice do juiz
                 clearConsole();
                 break;
-            } catch (IOException e) {
-                System.out.println(e.getMessage() + "\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Índice inválido\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
                 waitEnter();
                 clearConsole();
             }
         }
 
-        // Lendo universidade da pessoa
-        while (true) {
-            try {
-                printHeader();
-                System.out.print("Digite a universidade da pessoa:\n> ");
-                person.setUniversity(input.nextLine());
-                if (person.getUniversity().isEmpty()) {
-                    System.out.println("Universidade inválida!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
-                    waitEnter();
-                    clearConsole();
-                    continue;
-                }
-                clearConsole();
-                break;
-            } catch (IOException e) {
-                System.out.println(e.getMessage() + "\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
-                waitEnter();
-                clearConsole();
-            }
-        }
-
-        // Lendo tipo da pessoa
-        while (true) {
-            try {
-                printHeader();
-                System.out.print("Insira o tipo da pessoa (A - Aluno, C - Coach, J - Juiz):\n> ");
-                String letra = input.next().toUpperCase();
-                clearBuffer();
-                switch (letra) {
-                    case "A":
-                        person.setPersonType(PersonType.STUDENT);
-                        break;
-                    case "C":
-                        person.setPersonType(PersonType.COACH);
-                        break;
-                    case "J":
-                        person.setPersonType(PersonType.JUDGE);
-                        break;
-                    default:
-                        System.out.println("Opção inválida! Pressione \033[1;32mENTER\033[0m para tentar de novo.");
-                        waitEnter();
-                        clearConsole();
-                }
-                clearConsole();
-                break;
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage() + "\n Pressione \033[1;32mENTER\033[0m para tentar de novo.");
-                waitEnter();
-                clearConsole();
-            }
-        }
-
-        PersonDAO personDAO = new PersonDAO();
-        if (personDAO.save(person)) {
-            System.out.println("A pessoa foi criada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
-        } else {
-            System.out.println("Erro ao criar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
-        }
+        // ContestDAO contestDAO = new ContestDAO();
+        // if (contestDAO.save(contest)) {
+        //     System.out.println("O contest foi criado com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // } else {
+        //     System.out.println("Erro ao criar contest!\nPressione \033[1;32mENTER\033[0m para voltar.");
+        // }
 
         waitEnter();
         clearConsole();
     }
 
     public static void listContests() throws IOException {
-        // printHeader();
+        printHeader();
 
-        // PersonDAO personDAO = new PersonDAO();
-        // List<Person> people = personDAO.listPeople();
-
-        // System.out.println("Listando pessoas cadastradas:");
-        // for (Person person : people) {
-        //     System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+        // ContestDAO contestDAO = new ContestDAO();
+        // List<Contest> contests = contestDAO.listContests();
+        
+        // System.out.println("Listando contests cadastrados:");
+        // for (Contest contest : contests) {
+        //   System.out.println("- " + formatId(contest.getContestId()) + " | " + contest.getStatus() + " | " + contest.getTitle());
         // }
-
+    
         // System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
-
-        // waitEnter();
-        // clearConsole();
+    
+        waitEnter();
+        clearConsole();
     }
 
     public static void startContest() throws IOException {
-        // PersonDAO personDAO = new PersonDAO();
-        // int ID = 0;
-        // Person person = null;
+        printHeader();
 
-        // while(true) {
-        //     try {
-        //         printHeader();PersonDAO personDAO = new PersonDAO();
-        // int ID = 0;
-        // Person person = null;
+        Contest contest = new Contest();
 
-        // while(true) {
-        //     try {
-        //         printHeader();
-        //         System.out.print("Insira o ID da pessoa:\n> ");
-        //         ID = input.nextInt();
-        //         person = personDAO.getById(ID);
-        //         if (person == null) {
-        //             clearConsole();
-        //             printHeader();
-        //             throw new Exception("ID incorreto\n");
-        //         }
-        //         clearConsole();
-        //         break;
-        //     }
-        //     catch (Exception e) {
-        //         System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
-        //         waitEnter();
-        //     }
-        //     finally {
-        //         clearBuffer();
-        //     }
-        // }
+        while (true) {
+            try {
+                printHeader();
+                // listContests
+                System.out.print("Digite o ID do contest:\n> ");
+                contest.setContestId(input.nextInt());
+                // check ID here
+                clearConsole();
+                break;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Índice inválido\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
+                waitEnter();
+                clearConsole();
+            }
+        }
 
-        // if (personDAO.delete(person.getPersonId())) {
+        ContestDAO contestDAO = new ContestDAO();
+
+        // if (contestDAO.delete(c.getPersonId())) {
         //     System.out.println("A pessoa foi deletada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
         // } else {
         //     System.out.println("Erro ao deletar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
         // }
 
-        // waitEnter();
-        // clearConsole();
-        //             printHeader();
-        //             throw new Exception("ID incorreto\n");
-        //         }
-        //         clearConsole();
-        //         break;
-        //     }
-        //     catch (Exception e) {
-        //         System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
-        //         waitEnter();
-        //     }
-        //     finally {
-        //         clearBuffer();
-        //     }
-        // }
-
-        // if (personDAO.delete(person.getPersonId())) {
-        //     System.out.println("A pessoa foi deletada com sucesso!\nPressione \033[1;32mENTER\033[0m para voltar.");
-        // } else {
-        //     System.out.println("Erro ao deletar pessoa!\nPressione \033[1;32mENTER\033[0m para voltar.");
-        // }
-
-        // waitEnter();
-        // clearConsole();
+        waitEnter();
+        clearConsole();
     }
 
     public static void cancelContest() throws IOException {

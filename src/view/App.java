@@ -1,14 +1,16 @@
 package view;
 
 import java.io.IOException;
+// import java.util.Locale;
 import java.util.Scanner;
 
-import static view.PeopleMenu.peopleMenu;
+import static view.TeamsMenu.teamsMenu;
 
 public class App {
 	public static Scanner input = new Scanner(System.in);
 	
 	public static void main(String args[]) {
+		// Locale.setDefault(Locale.US);
 		mainMenu();
 	}
 	
@@ -39,10 +41,10 @@ public class App {
   	do {
   		printHeader();
   		
-  		System.out.println("\033[0;34m1) Gerenciar pessoas\033[0m\n" +
-  											 "\033[0;34m2) Gerenciar times\033[0m\n" +
-  											 "\033[0;34m3) Gerenciar contests\033[0m\n" +
-  											 "\033[0;34m4) Realizar submissões\033[0m\n" +
+  		System.out.println("\033[0;34m1) Consultas de pessoas\033[0m\n" +
+  											 "\033[0;34m2) Consultas de times\033[0m\n" +
+  											 "\033[0;34m3) Consultas de contests\033[0m\n" +
+  											 "\033[0;34m4) Consultas de submissões\033[0m\n" +
   											 "\033[0;34m5) Sair do Sistema\033[0m\n");
   		
   		optionMenu = input.nextInt();
@@ -51,13 +53,9 @@ public class App {
   		try {
     		switch(optionMenu) {
     			case 1:
-    				peopleMenu();
     				break;
     			case 2:
-    				printHeader();
-    				System.out.println("Menu de gerenciar times");
-            System.out.println("Aperte \033[1;32mENTER\033[0m para voltar.");
-            waitEnter();
+    				teamsMenu();
     				break;
     			case 3:
     				printHeader();
