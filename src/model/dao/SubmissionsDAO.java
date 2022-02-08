@@ -21,7 +21,7 @@ public class SubmissionsDAO implements ISubmissionsDAO {
 		boolean result = false;
 
 		try {
-			preparedStatement = connection.prepareStatement("insert into manage_contests.submissions (status, timestamp, sourceCode,	problemId, teamId) values  (?::manage_contests.submissionStatus, ?, ?, ?, ?)");
+			preparedStatement = connection.prepareStatement("insert into manage_contests.submission (status, timestamp, sourceCode,	problemId, teamId) values  (?::manage_contests.submissionStatus, ?, ?, ?, ?)");
 			preparedStatement.setString(1, submission.getStatus().toString());
 			preparedStatement.setTimestamp(2, submission.getTimestamp());
 			preparedStatement.setString(3, submission.getSourceCode());
@@ -48,7 +48,7 @@ public class SubmissionsDAO implements ISubmissionsDAO {
 		boolean result = false;
 
 		try {
-			preparedStatement = connection.prepareStatement("update manage_contests.submissions set status = ?::manage_contests.submissionStatus, timestamp = ?, sourceCode = ?, problemId = ?, teamId = ? where submissionId = ?");
+			preparedStatement = connection.prepareStatement("update manage_contests.submission set status = ?::manage_contests.submissionStatus, timestamp = ?, sourceCode = ?, problemId = ?, teamId = ? where submissionId = ?");
 			preparedStatement.setString(1, submission.getStatus().toString());
 			preparedStatement.setTimestamp(2, submission.getTimestamp());
 			preparedStatement.setString(3, submission.getSourceCode());
@@ -74,7 +74,7 @@ public class SubmissionsDAO implements ISubmissionsDAO {
 		boolean result = false;
 
 		try {
-			stmt = con.prepareStatement("delete from manage_contests.submissions as s where s.submissionId = (?)");
+			stmt = con.prepareStatement("delete from manage_contests.submission as s where s.submissionId = (?)");
 			stmt.setInt(1, submissionId);
 
 			result = (stmt.executeUpdate() == 1);
@@ -153,4 +153,39 @@ public class SubmissionsDAO implements ISubmissionsDAO {
 		return submissions;
   }
   
+  @Override
+  public List<Submission> listSubmissionsByTeam(int teamId) {
+		Connection connection = ConnectionFactory.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		List<Submission> submissions = new ArrayList<>();
+
+		try {
+			preparedStatement = connection.prepareStatement("select * from manage_contests.submission as s where s.teamId = (?) order by s.submissionId");
+			preparedStatement.setInt(1, teamId);
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				Submission submission = new Submission();
+
+				submission.setSubmissionId(resultSet.getInt("submissionId"));
+				submission.setStatus(SubmissionStatus.valueOf(resultSet.getString("status")));
+				submission.setSourceCode(resultSet.getString("sourceCode"));
+				submission.setTeamId(resultSet.getInt("teamId"));
+				submission.setProblemId(resultSet.getInt("problemId"));
+        submission.setTimestamp(resultSet.getTimestamp("timestamp"));
+
+				submissions.add(submission);
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			ConnectionFactory.closeConnection(connection, preparedStatement, resultSet);
+		}
+
+		return submissions;
+  }
+
 }

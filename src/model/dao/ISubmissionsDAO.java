@@ -10,4 +10,5 @@ public interface ISubmissionsDAO {
 	boolean delete(int submissionId);
 	Submission getById(int submissionId);
 	List<Submission> listSubmissions();
+	List<Submission> listSubmissionsByTeam(int teamId);
 }

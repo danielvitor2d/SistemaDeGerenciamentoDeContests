@@ -116,7 +116,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -164,7 +165,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -219,7 +221,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -274,7 +277,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -336,9 +340,9 @@ public class TeamsMenu {
     for (Team team : teams) {
       System.out.printf("\033[0;34m%-10s|%-20s\033[0m%n", formatId(team.getTeamId()), team.getTeamName());
     }
-    
+
     if (teams.size() == 0) {
-      System.out.println("Nenhum time cadastrado!\nPressione \033[1;32mENTER\033[0m para voltar.");
+      System.out.println("Nenhum time cadastrado!");
     }
 
     System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
@@ -354,16 +358,16 @@ public class TeamsMenu {
 
     List<Team> teams = teamDAO.listTeams();
 
-    while(true) {
+    while (true) {
       try {
         printHeader();
-    
+
         System.out.println("Listando times cadastrados:");
         for (Team _team : teams) {
           System.out
               .println("- " + formatId(_team.getTeamId()) + " | " + _team.getTeamName());
         }
-        
+
         if (teams.size() == 0) {
           System.out.println("Nenhum time cadastrado!\nPressione \033[1;32mENTER\033[0m para voltar.");
           waitEnter();
@@ -382,8 +386,7 @@ public class TeamsMenu {
         }
         clearConsole();
         break;
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
         waitEnter();
       }
@@ -407,8 +410,8 @@ public class TeamsMenu {
     PersonDAO personDAO = new PersonDAO();
 
     List<Team> teams = teamDAO.listTeams();
-    
-    while(true) {
+
+    while (true) {
       try {
         printHeader();
 
@@ -417,7 +420,7 @@ public class TeamsMenu {
           System.out
               .println("- " + formatId(_team.getTeamId()) + " | " + _team.getTeamName());
         }
-        
+
         if (teams.size() == 0) {
           System.out.println("Nenhum time cadastrado!\nPressione \033[1;32mENTER\033[0m para voltar.");
           waitEnter();
@@ -437,8 +440,7 @@ public class TeamsMenu {
         }
         clearConsole();
         break;
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
         waitEnter();
       }
@@ -481,7 +483,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -536,7 +539,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -591,7 +595,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -646,7 +651,8 @@ public class TeamsMenu {
 
         System.out.println("Listando pessoas cadastradas:");
         for (Person person : people) {
-          System.out.println("- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
+          System.out.println(
+              "- " + formatId(person.getPersonId()) + " | " + person.getPersonType() + " | " + person.getName());
         }
 
         if (people.size() == 0) {
@@ -713,7 +719,8 @@ public class TeamsMenu {
 
     System.out.printf("\033[1;34m%-25s|%-25s|%-25s|%-25s\033[1m%n", "Aluno 01", "Aluno 02", "Aluno 03", "Coach");
     for (ViewTeam viewTeam : viewTeams) {
-      System.out.printf("\033[0;34m%-25s|%-25s|%-25s|%-25s\033[0m%n", viewTeam.getStudent01(), viewTeam.getStudent02(), viewTeam.getStudent03(), viewTeam.getCoach());
+      System.out.printf("\033[0;34m%-25s|%-25s|%-25s|%-25s\033[0m%n", viewTeam.getStudent01(), viewTeam.getStudent02(),
+          viewTeam.getStudent03(), viewTeam.getCoach());
     }
 
     System.out.println("Aperte \033[1;32mENTER\033[0m para voltar");

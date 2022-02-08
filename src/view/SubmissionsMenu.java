@@ -8,12 +8,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.bean.Contest;
 import model.bean.ContestStatus;
+import model.bean.Problem;
 import model.bean.Submission;
 import model.bean.SubmissionStatus;
+import model.bean.Team;
 import model.dao.ContestDAO;
+import model.dao.ProblemDAO;
 import model.dao.SubmissionsDAO;
+import model.dao.TeamDAO;
 
 import static view.App.input;
 import static view.App.printHeader;
@@ -114,7 +120,111 @@ public class SubmissionsMenu {
     }
 
     // Lendo o código fonte da submissão
+    while (true) {
+      try {
+        printHeader();
+        System.out.print("Insira o endereço do código fonte:\n> ");
+        submission.setSourceCode(input.nextLine());
+        if (submission.getSourceCode().isEmpty()) {
+          System.out.println("Entrada inválida\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
+          waitEnter();
+          clearConsole();
+          continue;
+        }
+        clearConsole();
+        break;
+      } catch (IOException e) {
+        System.out.println("Erro!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
+        waitEnter();
+        clearConsole();
+      }
+    }
+
+    // Listando problemas
+    ProblemDAO problemDAO = new ProblemDAO();
+    Problem problem = null;
+
+    List<Problem> problems = problemDAO.listProblems();
+
+    while(true) {
+      try {
+        printHeader();
     
+        System.out.println("Listando problemas cadastrados:");
+        for (Problem _problem : problems) {
+          System.out
+              .println("- " + formatId(_problem.getProblemId()) + " | " + _problem.getTitle() + " | " + _problem.getDescription());
+        }
+        
+        if (problems.size() == 0) {
+          System.out.println("Nenhum problema cadastrado!\nPressione \033[1;32mENTER\033[0m para voltar.");
+          waitEnter();
+          clearConsole();
+          return;
+        }
+
+        System.out.print("Insira o ID do problema:\n> ");
+        int ID = input.nextInt();
+        clearBuffer();
+        problem = problemDAO.getById(ID);
+        if (problem == null) {
+          clearConsole();
+          continue;
+        }
+        clearConsole();
+        break;
+      }
+      catch (Exception e) {
+        System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+        waitEnter();
+        clearConsole();
+      }
+    }
+
+    submission.setProblemId(problem.getProblemId());
+
+    // Listando times
+    TeamDAO teamDAO = new TeamDAO();
+    Team team = null;
+
+    List<Team> teams = teamDAO.listTeams();
+
+    while(true) {
+      try {
+        printHeader();
+    
+        System.out.println("Listando times cadastrados:");
+        for (Team _team : teams) {
+          System.out
+              .println("- " + formatId(_team.getTeamId()) + " | " + _team.getTeamName());
+        }
+        
+        if (teams.size() == 0) {
+          System.out.println("Nenhum time cadastrado!\nPressione \033[1;32mENTER\033[0m para voltar.");
+          waitEnter();
+          clearConsole();
+          return;
+        }
+
+        System.out.print("Insira o ID do time:\n> ");
+        int ID = input.nextInt();
+        clearBuffer();
+        team = teamDAO.getById(ID);
+        if (team == null) {
+          clearConsole();
+          printHeader();
+          throw new Exception("ID incorreto\n");
+        }
+        clearConsole();
+        break;
+      }
+      catch (Exception e) {
+        System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+        waitEnter();
+      }
+    }
+
+    submission.setTeamId(team.getTeamId());
 
     printHeader();
 
@@ -130,10 +240,87 @@ public class SubmissionsMenu {
   }
 
   public static void listSubmissions() throws IOException {
+    printHeader();
 
+    SubmissionsDAO submissionsDAO = new SubmissionsDAO();
+    List<Submission> submissions = submissionsDAO.listSubmissions();
+
+    System.out.println("Listando submissões cadastradas:");
+    System.out.println("ID da Submissão  | Status da Submissão | ID do Problema | ID do Time");
+    for (Submission submission : submissions) {
+      System.out.println(formatId(submission.getSubmissionId()) + " | " + submission.getStatus() + " | " + submission.getProblemId() + " | " + submission.getTeamId());
+    }
+    
+    if (submissions.size() == 0) {
+      System.out.println("Nenhuma submissão cadastrada!");
+    }
+
+    System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
+
+    waitEnter();
+    clearConsole();
   }
 
   public static void listSubmissionsByTeam() throws IOException {
+    TeamDAO teamDAO = new TeamDAO();
+    int ID = 0;
+    Team team = null;
+
+    List<Team> teams = teamDAO.listTeams();
+
+    while(true) {
+      try {
+        printHeader();
     
+        System.out.println("Listando times cadastrados:");
+        for (Team _team : teams) {
+          System.out
+              .println("- " + formatId(_team.getTeamId()) + " | " + _team.getTeamName());
+        }
+        
+        if (teams.size() == 0) {
+          System.out.println("Nenhum time cadastrado!\nPressione \033[1;32mENTER\033[0m para voltar.");
+          waitEnter();
+          clearConsole();
+          return;
+        }
+
+        System.out.print("Insira o ID do time:\n> ");
+        ID = input.nextInt();
+        clearBuffer();
+        team = teamDAO.getById(ID);
+        if (team == null) {
+          clearConsole();
+          printHeader();
+          throw new Exception("ID incorreto\n");
+        }
+        clearConsole();
+        break;
+      }
+      catch (Exception e) {
+        System.out.println(e.getMessage() + " Pressione \033[1;32mENTER\033[0m para tentar de novo.");
+        waitEnter();
+      }
+    }
+
+    printHeader();
+
+    SubmissionsDAO submissionsDAO = new SubmissionsDAO();
+    List<Submission> submissions = submissionsDAO.listSubmissionsByTeam(team.getTeamId());
+
+    System.out.println("Listando submissões cadastradas:");
+    System.out.println("ID da Submissão  | Status da Submissão | ID do Problema | ID do Time");
+    for (Submission submission : submissions) {
+      System.out.println(formatId(submission.getSubmissionId()) + " | " + submission.getStatus() + " | " + submission.getProblemId() + " | " + submission.getTeamId());
+    }
+    
+    if (submissions.size() == 0) {
+      System.out.println("Nenhuma submissão cadastrada!");
+    }
+
+    System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
+
+    waitEnter();
+    clearConsole();
   }
 }

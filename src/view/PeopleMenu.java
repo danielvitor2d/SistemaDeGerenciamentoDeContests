@@ -21,19 +21,19 @@ public class PeopleMenu {
   public static void peopleMenu() throws IOException {
     do {
       printHeader();
-      
+
       System.out.println("\033[0;34m1) Adicionar pessoa\033[0m\n" +
-                          "\033[0;34m2) Listar pessoas\033[0m\n" +
-                          "\033[0;34m3) Listar dados da pessoa\033[0m\n" +
-                          "\033[0;34m4) Atualizar pessoa\033[0m\n" +
-                          "\033[0;34m5) Remover pessoa\033[0m\n" +
-                          "\033[0;34m6) Retornar\033[0m\n");
-      
+          "\033[0;34m2) Listar pessoas\033[0m\n" +
+          "\033[0;34m3) Listar dados da pessoa\033[0m\n" +
+          "\033[0;34m4) Atualizar pessoa\033[0m\n" +
+          "\033[0;34m5) Remover pessoa\033[0m\n" +
+          "\033[0;34m6) Retornar\033[0m\n");
+
       optionMenu = input.nextInt();
       clearBuffer();
-      
+
       try {
-        switch(optionMenu) {
+        switch (optionMenu) {
           case 1:
             addPerson();
             break;
@@ -62,7 +62,7 @@ public class PeopleMenu {
         waitEnter();
         clearConsole();
       }
-      
+
     } while (optionMenu != 6);
   }
 
@@ -76,8 +76,8 @@ public class PeopleMenu {
         System.out.print("Digite o nome da pessoa:\n> ");
         person.setName(input.nextLine());
         if (person.getName().isEmpty()) {
-          System.out.println("Nome inválido! O nome do aluno deve ter no mínimo 1 caractere!" + 
-                             "\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
+          System.out.println("Nome inválido! O nome do aluno deve ter no mínimo 1 caractere!" +
+              "\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
           waitEnter();
           clearConsole();
           continue;
@@ -201,8 +201,7 @@ public class PeopleMenu {
         }
         clearConsole();
         break;
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         System.out.println("Erro!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
         waitEnter();
         clearConsole();
@@ -227,12 +226,14 @@ public class PeopleMenu {
 
     PersonDAO personDAO = new PersonDAO();
     List<Person> people = personDAO.listPeople();
-    
+
     System.out.println("Listando pessoas cadastradas:");
     System.out.printf("\033[1;34m%-5s|%-17s|%-20s\033[1m%n", "ID", "Tipo de Pessoa", "Nome da Pessoa");
     for (Person person : people) {
-      String personType = (person.getPersonType().equals(PersonType.STUDENT) ? "Aluno" : (person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
-      System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(person.getPersonId()), personType, person.getName());
+      String personType = (person.getPersonType().equals(PersonType.STUDENT) ? "Aluno"
+          : (person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
+      System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(person.getPersonId()), personType,
+          person.getName());
     }
 
     if (people.size() == 0) {
@@ -255,12 +256,14 @@ public class PeopleMenu {
     while (true) {
       try {
         printHeader();
-    
+
         System.out.println("Listando pessoas cadastradas:");
         System.out.printf("\033[1;34m%-5s|%-17s|%-20s\033[1m%n", "ID", "Tipo de Pessoa", "Nome da Pessoa");
         for (Person _person : people) {
-          String personType = (_person.getPersonType().equals(PersonType.STUDENT) ? "Aluno" : (_person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
-          System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(_person.getPersonId()), personType, _person.getName());
+          String personType = (_person.getPersonType().equals(PersonType.STUDENT) ? "Aluno"
+              : (_person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
+          System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(_person.getPersonId()), personType,
+              _person.getName());
         }
 
         if (people.size() == 0) {
@@ -294,7 +297,8 @@ public class PeopleMenu {
     System.out.println("Telefone: " + person.getPhone());
     System.out.println("Universidade: " + person.getUniversity());
     String personType = person.getPersonType().toString();
-    System.out.println("Tipo de Pessoa: " + (personType.equals("STUDENT") ? "Aluno" : (personType.equals("COACH") ? "Coach" : "Juiz")));
+    System.out.println("Tipo de Pessoa: "
+        + (personType.equals("STUDENT") ? "Aluno" : (personType.equals("COACH") ? "Coach" : "Juiz")));
 
     System.out.println("\nPressione \033[1;32mENTER\033[0m para voltar.");
 
@@ -310,12 +314,14 @@ public class PeopleMenu {
     while (true) {
       try {
         printHeader();
-    
+
         System.out.println("Listando pessoas cadastradas:");
         System.out.printf("\033[1;34m%-5s|%-17s|%-20s\033[1m%n", "ID", "Tipo de Pessoa", "Nome da Pessoa");
         for (Person _person : people) {
-          String personType = (_person.getPersonType().equals(PersonType.STUDENT) ? "Aluno" : (_person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
-          System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(_person.getPersonId()), personType, _person.getName());
+          String personType = (_person.getPersonType().equals(PersonType.STUDENT) ? "Aluno"
+              : (_person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
+          System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(_person.getPersonId()), personType,
+              _person.getName());
         }
 
         if (people.size() == 0) {
@@ -436,7 +442,8 @@ public class PeopleMenu {
     while (true) {
       try {
         printHeader();
-        System.out.print("Insira o tipo da pessoa (A - Aluno, C - Coach, J - Juiz). Dê \033[1;32mENTER\033[0m caso não deseje alterar:\n> ");
+        System.out.print(
+            "Insira o tipo da pessoa (A - Aluno, C - Coach, J - Juiz). Dê \033[1;32mENTER\033[0m caso não deseje alterar:\n> ");
         String letra = input.nextLine();
         if (letra.isEmpty()) {
           clearConsole();
@@ -462,8 +469,7 @@ public class PeopleMenu {
         }
         clearConsole();
         break;
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
         System.out.println("Erro!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
         waitEnter();
         clearConsole();
@@ -489,15 +495,17 @@ public class PeopleMenu {
 
     List<Person> people = personDAO.listPeople();
 
-    while(true) {
+    while (true) {
       try {
         printHeader();
 
         System.out.println("Listando pessoas cadastradas:");
         System.out.printf("\033[1;34m%-5s|%-17s|%-20s\033[1m%n", "ID", "Tipo de Pessoa", "Nome da Pessoa");
         for (Person _person : people) {
-          String personType = (_person.getPersonType().equals(PersonType.STUDENT) ? "Aluno" : (_person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
-          System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(_person.getPersonId()), personType, _person.getName());
+          String personType = (_person.getPersonType().equals(PersonType.STUDENT) ? "Aluno"
+              : (_person.getPersonType().equals(PersonType.COACH) ? "Coach" : "Juiz"));
+          System.out.printf("\033[0;34m%-5s|%-17s|%-20s\033[0m%n", formatId(_person.getPersonId()), personType,
+              _person.getName());
         }
 
         if (people.size() == 0) {
@@ -512,7 +520,7 @@ public class PeopleMenu {
         clearBuffer();
         person = personDAO.getById(ID);
         if (person == null) {
-          System.out.println("ID inválido!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");  
+          System.out.println("ID inválido!\nPressione \033[1;32mENTER\033[0m para tentar de novo.");
           waitEnter();
           clearConsole();
           continue;

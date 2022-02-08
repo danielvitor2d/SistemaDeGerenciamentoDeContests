@@ -6,6 +6,8 @@ import java.util.Scanner;
 import static view.TeamsMenu.teamsMenu;
 import static view.PeopleMenu.peopleMenu;
 import static view.ContestsMenu.contestMenu;
+import static view.SubmissionsMenu.submissionsMenu;
+import static view.ProblemsMenu.problemsMenu;
 
 public class App {
 	public static Scanner input = new Scanner(System.in);
@@ -50,8 +52,9 @@ public class App {
   		System.out.println("\033[0;34m1) Gerenciamento de pessoas\033[0m\n" +
   											 "\033[0;34m2) Gerenciamento de times\033[0m\n" +
   											 "\033[0;34m3) Gerenciamento de contests\033[0m\n" +
-  											 "\033[0;34m4) Gerenciamento de submissões\033[0m\n" +
-  											 "\033[0;34m5) Sair do Sistema\033[0m\n");
+												 "\033[0;34m4) Gerenciamento de problemas\033[0m\n" +
+  											 "\033[0;34m5) Gerenciamento de submissões\033[0m\n" +
+  											 "\033[0;34m6) Sair do Sistema\033[0m\n");
   		
   		optionMenu = input.nextInt();
   		clearBuffer();
@@ -67,13 +70,13 @@ public class App {
     			case 3:
 						contestMenu();
     				break;
-    			case 4:
-    				printHeader();
-    				System.out.println("Menu de realizar submissões");
-            System.out.println("Aperte \033[1;32mENTER\033[0m para voltar.");
-            waitEnter();
-    				break;
+					case 4:
+						problemsMenu();
+						break;
     			case 5:
+						submissionsMenu();
+    				break;
+    			case 6:
     				printHeader();
             System.out.println("Finalizando o sistema. Aguarde...");
     				break;
@@ -86,6 +89,6 @@ public class App {
 				System.out.println("Opção inválida! Aperte \033[1;32mENTER\033[0m para tentar novamente");
 			}
   		
-  	} while (optionMenu != 5);
+  	} while (optionMenu != 6);
   }
 }
