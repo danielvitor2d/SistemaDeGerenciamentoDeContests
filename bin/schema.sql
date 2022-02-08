@@ -424,7 +424,7 @@ END
 $$;
 
 create or replace trigger update_view_count_accepted_of_team1
-after insert in manage_contests.submission
+after insert on manage_contests.submission
 for each row
 execute function manage_contests.update_view_count_accepted_of_team();
 
