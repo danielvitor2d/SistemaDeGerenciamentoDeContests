@@ -5,11 +5,8 @@ import java.util.List;
 
 import model.bean.Contest;
 import model.bean.ContestStatus;
-import model.bean.Person;
-import model.bean.PersonType;
 import model.bean.Problem;
 import model.dao.ContestDAO;
-import model.dao.PersonDAO;
 import model.dao.ProblemDAO;
 
 import static view.App.input;

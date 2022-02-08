@@ -2,21 +2,12 @@ package view;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
-import model.bean.Contest;
-import model.bean.ContestStatus;
 import model.bean.Problem;
 import model.bean.Submission;
 import model.bean.SubmissionStatus;
 import model.bean.Team;
-import model.dao.ContestDAO;
 import model.dao.ProblemDAO;
 import model.dao.SubmissionsDAO;
 import model.dao.TeamDAO;
