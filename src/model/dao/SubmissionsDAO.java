@@ -1,4 +1,4 @@
-package model.dao;
+package src.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import connection.ConnectionFactory;
-import model.bean.Submission;
-import model.bean.SubmissionStatus;
+import src.connection.ConnectionFactory;
+import src.model.bean.Submission;
+import src.model.bean.SubmissionStatus;
 
 public class SubmissionsDAO implements ISubmissionsDAO {
 

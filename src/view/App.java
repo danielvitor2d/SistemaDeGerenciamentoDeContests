@@ -1,13 +1,13 @@
-package view;
+package src.view;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import static view.TeamsMenu.teamsMenu;
-import static view.PeopleMenu.peopleMenu;
-import static view.ContestsMenu.contestMenu;
-import static view.SubmissionsMenu.submissionsMenu;
-import static view.ProblemsMenu.problemsMenu;
+import static src.view.TeamsMenu.teamsMenu;
+import static src.view.PeopleMenu.peopleMenu;
+import static src.view.ContestsMenu.contestMenu;
+import static src.view.SubmissionsMenu.submissionsMenu;
+import static src.view.ProblemsMenu.problemsMenu;
 
 public class App {
 	public static Scanner input = new Scanner(System.in);

@@ -1,23 +1,23 @@
-package view;
+package src.view;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import model.bean.Problem;
-import model.bean.Submission;
-import model.bean.SubmissionStatus;
-import model.bean.Team;
-import model.dao.ProblemDAO;
-import model.dao.SubmissionsDAO;
-import model.dao.TeamDAO;
+import src.model.bean.Problem;
+import src.model.bean.Submission;
+import src.model.bean.SubmissionStatus;
+import src.model.bean.Team;
+import src.model.dao.ProblemDAO;
+import src.model.dao.SubmissionsDAO;
+import src.model.dao.TeamDAO;
 
-import static view.App.input;
-import static view.App.printHeader;
-import static view.App.waitEnter;
-import static view.App.clearBuffer;
-import static view.App.clearConsole;
-import static view.App.formatId;
+import static src.view.App.input;
+import static src.view.App.printHeader;
+import static src.view.App.waitEnter;
+import static src.view.App.clearBuffer;
+import static src.view.App.clearConsole;
+import static src.view.App.formatId;
 
 public class SubmissionsMenu {
   private static int optionMenu = 0;

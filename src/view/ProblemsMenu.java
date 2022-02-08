@@ -1,20 +1,20 @@
-package view;
+package src.view;
 
 import java.io.IOException;
 import java.util.List;
 
-import model.bean.Contest;
-import model.bean.ContestStatus;
-import model.bean.Problem;
-import model.dao.ContestDAO;
-import model.dao.ProblemDAO;
+import src.model.bean.Contest;
+import src.model.bean.ContestStatus;
+import src.model.bean.Problem;
+import src.model.dao.ContestDAO;
+import src.model.dao.ProblemDAO;
 
-import static view.App.input;
-import static view.App.printHeader;
-import static view.App.waitEnter;
-import static view.App.clearBuffer;
-import static view.App.clearConsole;
-import static view.App.formatId;
+import static src.view.App.input;
+import static src.view.App.printHeader;
+import static src.view.App.waitEnter;
+import static src.view.App.clearBuffer;
+import static src.view.App.clearConsole;
+import static src.view.App.formatId;
 
 public class ProblemsMenu {
   private static int optionMenu = 0;

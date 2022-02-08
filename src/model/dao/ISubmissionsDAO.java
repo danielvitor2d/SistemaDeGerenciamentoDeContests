@@ -1,8 +1,8 @@
-package model.dao;
+package src.model.dao;
 
 import java.util.List;
 
-import model.bean.Submission;
+import src.model.bean.Submission;
 
 public interface ISubmissionsDAO {
 	boolean save(Submission submission);

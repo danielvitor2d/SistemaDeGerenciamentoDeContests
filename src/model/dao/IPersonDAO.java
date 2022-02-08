@@ -1,8 +1,8 @@
-package model.dao;
+package src.model.dao;
 
 import java.util.List;
 
-import model.bean.Person;
+import src.model.bean.Person;
 
 public interface IPersonDAO {
 	boolean save(Person person);

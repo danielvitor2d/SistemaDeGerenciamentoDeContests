@@ -1,4 +1,4 @@
-package model.bean;
+package src.model.bean;
 
 public class ViewTeam {
   private String student01;

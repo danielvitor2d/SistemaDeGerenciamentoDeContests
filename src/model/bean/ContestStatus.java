@@ -1,4 +1,4 @@
-package model.bean;
+package src.model.bean;
 
 public enum ContestStatus {
 	NOT_STARTED("NOT_STARTED"),

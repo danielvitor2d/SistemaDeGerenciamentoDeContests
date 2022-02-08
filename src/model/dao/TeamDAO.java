@@ -1,4 +1,4 @@
-package model.dao;
+package src.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import connection.ConnectionFactory;
-import model.bean.Team;
-import model.bean.TeamAndContestRegistered;
-import model.bean.TeamAndCountOfSubmissions;
-import model.bean.ViewTeam;
+import src.connection.ConnectionFactory;
+import src.model.bean.Team;
+import src.model.bean.TeamAndContestRegistered;
+import src.model.bean.TeamAndCountOfSubmissions;
+import src.model.bean.ViewTeam;
 
 public class TeamDAO implements ITeamDAO {
 

@@ -1,11 +1,11 @@
-package model.dao;
+package src.model.dao;
 
 import java.util.List;
 
-import model.bean.Team;
-import model.bean.TeamAndContestRegistered;
-import model.bean.TeamAndCountOfSubmissions;
-import model.bean.ViewTeam;
+import src.model.bean.Team;
+import src.model.bean.TeamAndContestRegistered;
+import src.model.bean.TeamAndCountOfSubmissions;
+import src.model.bean.ViewTeam;
 
 interface ITeamDAO {
   List<ViewTeam> listarTimeComNomesDosMembros();

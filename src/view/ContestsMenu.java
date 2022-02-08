@@ -1,4 +1,4 @@
-package view;
+package src.view;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -6,16 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import model.bean.Contest;
-import model.bean.ContestStatus;
-import model.dao.ContestDAO;
+import src.model.bean.Contest;
+import src.model.bean.ContestStatus;
+import src.model.dao.ContestDAO;
 
-import static view.App.input;
-import static view.App.printHeader;
-import static view.App.waitEnter;
-import static view.App.clearBuffer;
-import static view.App.clearConsole;
-import static view.App.formatId;
+import static src.view.App.input;
+import static src.view.App.printHeader;
+import static src.view.App.waitEnter;
+import static src.view.App.clearBuffer;
+import static src.view.App.clearConsole;
+import static src.view.App.formatId;
 
 public class ContestsMenu {
   private static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm");

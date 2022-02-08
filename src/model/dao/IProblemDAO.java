@@ -1,8 +1,8 @@
-package model.dao;
+package src.model.dao;
 
 import java.util.List;
 
-import model.bean.Problem;
+import src.model.bean.Problem;
 
 public interface IProblemDAO {
 	boolean save(Problem problem);

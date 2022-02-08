@@ -1,8 +1,8 @@
-package model.dao;
+package src.model.dao;
 
 import java.util.List;
 
-import model.bean.Contest;
+import src.model.bean.Contest;
 
 public interface IContestDAO {
 	boolean save(Contest contest);

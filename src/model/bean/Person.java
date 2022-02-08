@@ -1,4 +1,4 @@
-package model.bean;
+package src.model.bean;
 
 public class Person {
 	private int personId;

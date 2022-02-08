@@ -1,24 +1,24 @@
-package view;
+package src.view;
 
-import static view.App.input;
-import static view.App.printHeader;
-import static view.App.waitEnter;
+import static src.view.App.input;
+import static src.view.App.printHeader;
+import static src.view.App.waitEnter;
 
 import java.io.IOException;
 import java.util.List;
 
-import model.bean.Person;
-import model.bean.PersonType;
-import model.bean.Team;
-import model.bean.TeamAndContestRegistered;
-import model.bean.TeamAndCountOfSubmissions;
-import model.bean.ViewTeam;
-import model.dao.PersonDAO;
-import model.dao.TeamDAO;
+import src.model.bean.Person;
+import src.model.bean.PersonType;
+import src.model.bean.Team;
+import src.model.bean.TeamAndContestRegistered;
+import src.model.bean.TeamAndCountOfSubmissions;
+import src.model.bean.ViewTeam;
+import src.model.dao.PersonDAO;
+import src.model.dao.TeamDAO;
 
-import static view.App.clearBuffer;
-import static view.App.clearConsole;
-import static view.App.formatId;
+import static src.view.App.clearBuffer;
+import static src.view.App.clearConsole;
+import static src.view.App.formatId;
 
 public class TeamsMenu {
   private static int optionMenu = 0;

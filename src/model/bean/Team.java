@@ -1,4 +1,4 @@
-package model.bean;
+package src.model.bean;
 
 public class Team {
 	private int teamId;
