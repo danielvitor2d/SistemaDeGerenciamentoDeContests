@@ -178,6 +178,8 @@ insert into manage_contests.team (teamName, teamPhotoUrl, studentId01, studentId
 								 ('Superpoderosas', 'https://media.giphy.com/media/lylKK15DfmdzO/giphy.gif', 30, 31, 32, 33);
 insert into manage_contests.team (teamName, teamPhotoUrl, studentId01, studentId02, studentId03, coachId) values
 								 ('Time sem nome', 'https://media.giphy.com/media/94xeIhxJKItxrJMfJV/giphy.gif', 34, 35, 36, 37);
+insert into manage_contests.team (teamName, teamPhotoUrl, studentId01, studentId02, studentId03, coachId) values
+								 ('Time com T', 'https://media.giphy.com/media/94xeIhxJKItxrJMfJV/giphy.gif', 2, 6, 9, 13);
 								 
 -- povoando tabela contest
 insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
@@ -187,9 +189,19 @@ insert into manage_contests.contest (status, title, date, duration, place, judge
 insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
 									('NOT_STARTED', 'III Contest Brasileiro', '2020-01-25', 5, 'UFPB', 6);
 insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
-									('FINISHED', 'I Contest do Nordeste', '2021-03-01', 5, 'IFCE', 6);
+									('FINISHED', 'I Contest do Nordeste', '2017-03-01', 5, 'IFCE', 6);
 insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
 									('FINISHED', 'XII Contest do Norte', '2021-05-15', 5, 'UFAM', 6);
+insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
+									('FINISHED', 'II Contest do Nordeste', '2018-03-01', 5, 'IFCE', 6);
+insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
+									('FINISHED', 'III Contest do Nordeste', '2019-03-01', 5, 'IFCE', 6);
+insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
+									('FINISHED', 'IV Contest do Nordeste', '2020-03-01', 5, 'IFCE', 6);
+insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
+									('FINISHED', 'V Contest do Nordeste', '2021-03-01', 5, 'IFCE', 6);
+insert into manage_contests.contest (status, title, date, duration, place, judgeid) values 
+									('FINISHED', 'VI Contest do Nordeste', '2022-03-01', 5, 'IFCE', 6);
 									
 -- Povoando tabela problem
 insert into manage_contests.problem (title, description, timelimit, sampleinputproblem, sampleoutputproblem, contestid) values 
@@ -270,7 +282,7 @@ INSERT INTO manage_contests.contest_registered_team (teamid, contestid) VALUES
 													(5, 4);
 INSERT INTO manage_contests.contest_registered_team (teamid, contestid) VALUES 
 													(5, 5);
-
+													
 -- Povoando a tabela submission
 insert into manage_contests.submission (status, "timestamp", sourcecode, problemid, teamid) values
 									   ('AC', 'now()', 'Sample 1 of sourcecode', 1, 1);
@@ -302,55 +314,126 @@ insert into manage_contests.submission (status, "timestamp", sourcecode, problem
 									   ('WA', 'now()', 'Sample 14 of sourcecode', 14, 5);
 insert into manage_contests.submission (status, "timestamp", sourcecode, problemid, teamid) values
 									   ('RE', 'now()', 'Sample 15 of sourcecode', 16, 5);
+									   
+-- Criando views e materialized views
 
--- Criando view para visualizar os times com os nomes dos alunos
+-- Criando view para visualizar os membros de cada time
 create view manage_contests.view_teams as (
 	select (select p.name from manage_contests.person as p where p.personId = t.studentid01) as student01,
 	       (select p.name from manage_contests.person as p where p.personId = t.studentid02) as student02,
-	 	   (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
-		   (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach
+	 	     (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
+		     (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach
 	from manage_contests.team as t
 );
 
--- Criando view para visualizar os times e a quantidade de contests cadastrados
+-- Criando view para visualizar o time e a quantidade de contests cadastrados
 create view manage_contests.view_contests_teams as (
 	select t.teamId as team_id,
 		   (select p.name from manage_contests.person as p where p.personId = t.studentid01) as student01,
 	       (select p.name from manage_contests.person as p where p.personId = t.studentid02) as student02,
 	 	   (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
 		   (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach,
-	       count(*) as count_of_problems
-	from manage_contests.contest_registered_team as crt join manage_contests.team as t on t.teamId = crt.teamId
+	       count(crt.teamId) as count_of_contests
+	from manage_contests.contest_registered_team as crt right join manage_contests.team as t on t.teamId = crt.teamId
 	group by (t.teamId)
+	order by (t.teamId)
 );
 
--- Criando materialized view para calcular a quantidade de submissões por equipe
+-- Criando materialized view para calcular a quantidade de submissões por time, mostrando membros do time
 create materialized view manage_contests.view_teams_submissions as (
 	select t.teamId as team_id,
 		   (select p.name from manage_contests.person as p where p.personId = t.studentid01) as student01,
 	       (select p.name from manage_contests.person as p where p.personId = t.studentid02) as student02,
 	 	   (select p.name from manage_contests.person as p where p.personId = t.studentid03) as student03,
 		   (select p.name from manage_contests.person as p where p.personId = t.coachId) as coach,
-		   count(*) as count_of_submissions
-	from manage_contests.submission as s natural join manage_contests.team as t
-	group by (team_id, student01, student02, student03)
+		   count(s.submissionId) as count_of_submissionsinsert
+	from manage_contests.submission as s natural right join manage_contests.team as t
+	group by (team_id, student01, student02, student03, coach)
 );
 
 -- Criando materialized view para calcular a quantidade de problemas por contest
 create materialized view manage_contests.view_problems_of_contest as (
-	select c.contestId, c.title as title_of_contest, count(*) as count_of_problems
-	from manage_contests.contest as c join manage_contests.problem as p on c.contestId = p.contestId
+	select c.contestId, c.title as title_of_contest, count(p.problemId) as count_of_problems
+	from manage_contests.contest as c left join manage_contests.problem as p on c.contestId = p.contestId
 	group by (c.contestId, c.title)
 );
 
+-- Criando materialized view para calcular a quantidade de submissões por time por contest
+create materialized view manage_contests.view_count_accepted_of_team_by_contest as (
+  select t3.teamId as team_id, t3.contestId as contest_id, count(t3.submissionId) as count_of_accepted
+  from                 (((manage_contests.problem as p 
+		natural left join manage_contests.submission as s) as t1
+		natural right join manage_contests.team as t) as t2
+	    join manage_contests.contest as c using (contestId)) as t3
+  group by (t3.teamId, t3.contestId)
+);
+
+-- Criando materialized view para calcular a quantidade de submissões AC por times
+create materialized view manage_contests.view_count_accepted_of_team as (
+  select res.teamId as team_id, count(res.submissionId) as count_of_accepted
+  from (manage_contests.submission as s natural right join manage_contests.team as t) as res
+  where res.status = 'AC' or res.status is null
+  group by (res.teamId)
+);
+create unique index view_count_accepted_of_team_id on manage_contests.view_count_accepted_of_team (team_id);
+
 -- Criando consultas
 
--- Consultando equipes e o somatório da quantidade de problemas de todos os contests que participaram
+-- Consultando times e o somatório da quantidade de problemas de todos os contests que participaram
 select team_contest_count_problems.teamName, sum(team_contest_count_problems.count_of_problems)
 from ((manage_contests.contest_registered_team as crt natural join manage_contests.team as t) as team_contest
      natural join manage_contests.view_problems_of_contest as vpc) as team_contest_count_problems
 group by (team_contest_count_problems.teamName);
 
+-- Consultar quantidade de submissões por time
+select team_id, sum(count_of_accepted)
+from manage_contests.view_count_accepted_of_team_by_contest
+group by team_id;
 
+-- Quantidade de submissões AC por time
+select * from manage_contests.view_count_accepted_of_team;
 
+-- Nome do time e quantidade de submissões em todos os contests
+select res.teamName, count(res.submissionId)
+from (manage_contests.team as t natural left join manage_contests.submission as s) as res
+group by (res.teamName);
 
+-- Contar quantidade de contests RUNNING
+select count(*)
+from manage_contests.contest as c
+where c.status = 'RUNNING';
+
+-- Criando procedimento armazenado
+CREATE OR REPLACE procedure manage_contests.inserir_time_no_contest(teamId int, contestId int)
+language plpgsql
+as $$
+declare
+begin
+	insert into manage_contests.contest_registered_team (teamId, contestId) values (teamId, contestId);
+end; 
+$$;
+
+-- Criando trigger para atualizar view de contar a quantidade de submissões com status EC por time
+CREATE OR REPLACE FUNCTION manage_contests.update_view_count_accepted_of_team()
+  RETURNS TRIGGER LANGUAGE plpgsql
+  AS $$
+  BEGIN
+  REFRESH MATERIALIZED VIEW CONCURRENTLY manage_contests.view_count_accepted_of_team;
+  RETURN NEW;
+END 
+$$;
+
+create or replace trigger update_view_count_accepted_of_team1
+after insert on manage_contests.submission
+for each row
+execute function manage_contests.update_view_count_accepted_of_team();
+
+CREATE OR REPLACE TRIGGER update_view_count_accepted_of_team2
+AFTER UPDATE ON manage_contests.submission
+FOR EACH ROW
+EXECUTE FUNCTION manage_contests.update_view_count_accepted_of_team();
+
+CREATE OR REPLACE TRIGGER update_view_count_accepted_of_team3
+AFTER DELETE ON manage_contests.submission
+FOR EACH ROW
+EXECUTE FUNCTION manage_contests.update_view_count_accepted_of_team();

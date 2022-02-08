@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class ConnectionFactory {
 
 	private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost/manage-contests";
+    private static final String URL = "jdbc:postgresql://localhost/manage_contests";
     private static final String USER = "postgres";
     private static final String PASS = "pass1234";
 
